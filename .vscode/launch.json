@@ -1,0 +1,76 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information,visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "vmArgs": "--module-path /Users/jackylai/Desktop/libraries/javafx-sdk-18/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "application.Main",
+            "projectName": "s3878874-a2_4ffe644d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ComputeAreaSolution",
+            "request": "launch",
+            "vmArgs": "--module-path /Users/jackylai/Desktop/libraries/javafx-sdk-18/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "ComputeAreaSolution",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "vmArgs": "--module-path /Users/jackylai/Desktop/libraries/javafx-sdk-18/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "application.Main",
+            "projectName": "futher programming a2_9e8560b6"
+        },
+        {
+            "name": "Java",
+            "type": "java",
+            "request": "launch",
+            "vmArgs": "--module-path /Users/jackylai/Desktop/libraries/javafx-sdk-18/lib --add-modules javafx.controls,javafx.fxml",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ]
+        },
+        {
+            "name": "Java Console App",
+            "type": "java",
+            "request": "launch",
+            "vmArgs": "--module-path /Users/jackylai/Desktop/libraries/javafx-sdk-18/lib --add-modules javafx.controls,javafx.fxml",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ],
+            "externalConsole": true
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "vmArgs": "--module-path /Users/jackylai/Desktop/libraries/javafx-sdk-18/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "vmArgs": "--module-path /Users/jackylai/Desktop/libraries/javafx-sdk-18/lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "application.Main",
+            "projectName": "'futher programming a2'_9e8560b6"
+        }
+    ]
+}

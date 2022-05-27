@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="683.0" style="-fx-background-color: GAINSBORO;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CanvasController">
+   <children>
+      <Pane fx:id="canvas" layoutX="86.0" layoutY="54.0" prefHeight="467.0" prefWidth="390.0" style="-fx-background-color: WHITE;" />
+      <VBox fx:id="createCanvas" alignment="CENTER" layoutX="184.0" layoutY="200.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="192.0" style="-fx-background-color: WHITE; -fx-border-color: BLACK;">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <Label style="-fx-font-family: Times New Roman;" text="Width, px:" />
+                  <TextField fx:id="width" prefHeight="25.0" prefWidth="90.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="137.0" spacing="18.0">
+               <children>
+                  <Label text="Height, px:" />
+                  <TextField fx:id="height" prefHeight="25.0" prefWidth="90.0" />
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="save" mnemonicParsing="false" text="OK" />
+                  <Button fx:id="cancel" mnemonicParsing="false" text="Cancel" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+      <MenuBar fx:id="menuBar" prefHeight="43.0" prefWidth="683.0">
+        <menus>
+          <Menu fx:id="file" mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="newCanvas" mnemonicParsing="false" text="New canvas" />
+                  <MenuItem fx:id="clearCanvas" mnemonicParsing="false" text="Clear canvas" />
+              <MenuItem fx:id="saveAs" mnemonicParsing="false" text="Save as" />
+            </items>
+          </Menu>
+          <Menu fx:id="edit" mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem fx:id="deleteElement" mnemonicParsing="false" text="Delete element" />
+            </items>
+          </Menu>
+          <Menu fx:id="help" mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="about" mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+         <padding>
+            <Insets left="5.0" top="8.0" />
+         </padding>
+      </MenuBar>
+      <VBox alignment="TOP_CENTER" layoutY="43.0" prefHeight="521.0" prefWidth="75.0" spacing="10.0" style="-fx-background-color: LIGHTGREY;">
+         <children>
+            <Button fx:id="addText" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="Text" />
+            <Button fx:id="addImage" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="Image" />
+            <Button fx:id="addRectangle" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="Rect" />
+            <Button fx:id="addCircle" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="Circle" />
+            <Button fx:id="addCanvas" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="Canvas" />
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="242.0" prefHeight="43.0" prefWidth="442.0" spacing="10.0">
+         <children>
+            <ImageView fx:id="profilePicture" fitHeight="43.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="profileName" text="full name" />
+            <Button fx:id="profile" mnemonicParsing="false" text="Profile" />
+            <Button fx:id="logOut" mnemonicParsing="false" text="Log out" />
+         </children>
+         <padding>
+            <Insets right="5.0" />
+         </padding>
+      </HBox>
+      <VBox fx:id="infoBar" layoutX="485.0" layoutY="42.0" prefHeight="491.0" prefWidth="198.0" style="-fx-background-color: LIGHTGREY;" />
+      <HBox alignment="CENTER_LEFT" layoutY="533.0" prefHeight="31.0" prefWidth="322.0" style="-fx-background-color: LIGHTGREY;">
+         <children>
+            <Label fx:id="coordinates" prefHeight="17.0" prefWidth="100.0" text="x: 00 y: 00 " />
+            <Label fx:id="elementProperty" prefHeight="17.0" prefWidth="190.0" text="w: 00 h: 00 angle: 0 deg" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="320.0" layoutY="533.0" prefHeight="31.0" prefWidth="364.0" spacing="10.0" style="-fx-background-color: LIGHTGREY;">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+         <children>
+            <Slider fx:id="zoom" max="300.0" prefHeight="16.0" prefWidth="178.0" value="100.0" />
+            <Label fx:id="zoomLabel" prefHeight="17.0" prefWidth="92.0" text="Zoom: 100%" textAlignment="RIGHT">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
