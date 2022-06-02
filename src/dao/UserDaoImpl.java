@@ -32,20 +32,21 @@ public class UserDaoImpl implements UserDao {
 		try (Connection connection = Database.getConnection();
 				Statement stmt = connection.createStatement();) {
 			String sql = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (username VARCHAR(20) NOT NULL,"
-					+ "password VARCHAR(20) NOT NULL," + "firstName VARCHAR(20) NOT NULL," + "lastName VARCHAR(20) NOT NULL," + "photo LONGBLOB NOT NULL," + "PRIMARY KEY (username))";
+					+ "password VARCHAR(20) NOT NULL," + "firstName VARCHAR(20) NOT NULL,"
+					+ "lastName VARCHAR(20) NOT NULL," + "photo LONGBLOB NOT NULL," + "PRIMARY KEY (username))";
 			stmt.executeUpdate(sql);
-		} 
+		}
 	}
 
 	@Override
 	public User getUser(String username, String password) throws SQLException {
 		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ? AND password = ?";
-		try (Connection connection = Database.getConnection(); 
+		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
-			
-				stmt.setString(1, username);
-				stmt.setString(2, hashPassword(password));
-			
+
+			stmt.setString(1, username);
+			stmt.setString(2, hashPassword(password));
+
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
 					User user = new User(username, password);
@@ -57,12 +58,31 @@ public class UserDaoImpl implements UserDao {
 					return user;
 				}
 				return null;
-			} 
+			}
 		}
 	}
 
 	@Override
-	public User createUser(String username, String password, String firstName, String lastName, FileInputStream photoFileInputStream) throws SQLException, NoSuchAlgorithmException, IOException {
+	public boolean getUser(String username) throws SQLException {
+		String sql = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
+		try (Connection connection = Database.getConnection();
+				PreparedStatement stmt = connection.prepareStatement(sql);) {
+
+			stmt.setString(1, username);
+
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+	}
+
+	@Override
+	public User createUser(String username, String password, String firstName, String lastName,
+			FileInputStream photoFileInputStream) throws SQLException, NoSuchAlgorithmException, IOException {
 		String sql = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?)";
 		try (Connection connection = Database.getConnection();
 				PreparedStatement stmt = connection.prepareStatement(sql);) {
@@ -76,65 +96,64 @@ public class UserDaoImpl implements UserDao {
 			User user = new User(username, password, firstName, lastName);
 			user.setPhoto(retrieveImage(username));
 			return user;
-		} 
+		}
 	}
 
 	public String hashPassword(String password) {
-        try {
-            SecureRandom random = new SecureRandom();
-            MessageDigest digest = MessageDigest.getInstance("SHA3-256");
-            byte[] hashbytes = digest.digest(
-                password.getBytes(StandardCharsets.UTF_8)
-            );
-            StringBuilder stringBuilder = new StringBuilder();
-            for (byte b : hashbytes) {
-                stringBuilder.append(Integer.toString(b & 0xff + 0x100, 16).substring(1));
-            }
-            return stringBuilder.toString();
-        } catch (NoSuchAlgorithmException e) {
-           System.out.println(e.getMessage());
-           return e.getMessage();
-        }
-    }
+		try {
+			SecureRandom random = new SecureRandom();
+			MessageDigest digest = MessageDigest.getInstance("SHA3-256");
+			byte[] hashbytes = digest.digest(
+					password.getBytes(StandardCharsets.UTF_8));
+			StringBuilder stringBuilder = new StringBuilder();
+			for (byte b : hashbytes) {
+				stringBuilder.append(Integer.toString(b & 0xff + 0x100, 16).substring(1));
+			}
+			return stringBuilder.toString();
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println(e.getMessage());
+			return e.getMessage();
+		}
+	}
 
 	public void changeProfilePic(User user, FileInputStream photo) throws SQLException, IOException {
 		String sql = "UPDATE " + TABLE_NAME + " SET photo = ? WHERE username = ?";
 		try (Connection connection = Database.getConnection();
-			PreparedStatement stmt = connection.prepareStatement(sql);) {
+				PreparedStatement stmt = connection.prepareStatement(sql);) {
 			stmt.setBytes(1, photo.readAllBytes());
 			stmt.setString(2, user.getUsername());
 			stmt.executeUpdate();
-		} 
+		}
 	}
 
 	public Image retrieveImage(String username) throws SQLException {
 		Image image;
 		String retrieveStatement = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?";
 		try (Connection connection = Database.getConnection();
-			PreparedStatement stmt = connection.prepareStatement(retrieveStatement);) {
-				stmt.setString(1, username);
-				try (ResultSet rs = stmt.executeQuery();) {
-					if (rs.next()) {
-						byte[] bytes = rs.getBytes("photo");
-						InputStream inputStream = new ByteArrayInputStream(bytes);
-						image = new Image(inputStream);
-						return image;
-					} else {
-						return null;
-					}
+				PreparedStatement stmt = connection.prepareStatement(retrieveStatement);) {
+			stmt.setString(1, username);
+			try (ResultSet rs = stmt.executeQuery();) {
+				if (rs.next()) {
+					byte[] bytes = rs.getBytes("photo");
+					InputStream inputStream = new ByteArrayInputStream(bytes);
+					image = new Image(inputStream);
+					return image;
+				} else {
+					return null;
 				}
 			}
+		}
 	}
 
 	public User updateUser(User user, String firstName, String lastName) throws SQLException {
 		String sql = "UPDATE " + TABLE_NAME + " SET firstName = ?, lastName = ? WHERE username = ?";
 		try (Connection connection = Database.getConnection();
-			PreparedStatement stmt = connection.prepareStatement(sql);) {
-				stmt.setString(1, firstName);
-				stmt.setString(2, lastName);
-				stmt.setString(3, user.getUsername());
-				stmt.executeUpdate();
-			}
+				PreparedStatement stmt = connection.prepareStatement(sql);) {
+			stmt.setString(1, firstName);
+			stmt.setString(2, lastName);
+			stmt.setString(3, user.getUsername());
+			stmt.executeUpdate();
+		}
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		return user;

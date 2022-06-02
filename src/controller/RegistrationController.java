@@ -33,7 +33,7 @@ public class RegistrationController {
     private TextField username;
     @FXML
     private TextField lastName;
-    @FXML 
+    @FXML
     private TextField firstName;
     @FXML
     private PasswordField password;
@@ -41,7 +41,7 @@ public class RegistrationController {
     private Label message;
     @FXML
     private Button createUser;
-    @FXML 
+    @FXML
     private Button close;
     @FXML
     private ImageView profilePicture;
@@ -62,37 +62,49 @@ public class RegistrationController {
     @FXML
     public void initialize() {
         createUser.setOnAction(event -> {
-            if (!username.getText().isEmpty() && !password.getText().isEmpty() && !firstName.getText().isEmpty() && !lastName.getText().isEmpty()) {
-                User user;
-                try {
-                    FileInputStream photoFileInputStream = new FileInputStream(selectedFile);
-                    user = model.getUserDao().createUser(username.getText(), password.getText(), firstName.getText(), lastName.getText(), photoFileInputStream); 
+            try {
+                boolean userExists = this.model.getUserDao().getUser(username.getText());
+                if (!username.getText().isEmpty() && !password.getText().isEmpty() && !firstName.getText().isEmpty()
+                        && !lastName.getText().isEmpty()) {
+                    User user;
+                    try {
+                        FileInputStream photoFileInputStream = new FileInputStream(selectedFile);
+                        user = model.getUserDao().createUser(username.getText(), password.getText(),
+                                firstName.getText(),
+                                lastName.getText(), photoFileInputStream);
                         if (user != null) {
                             message.setText("Created an account for " + user.getFirstName() + " " + user.getLastName());
                             message.setTextFill(Color.GREEN);
                         } else {
                             message.setText("Cannot create user!");
                             message.setTextFill(Color.RED);
-                        
+
+                        }
+                    } catch (SQLException e) {
+                        message.setText(e.getMessage());
+                        message.setTextFill(Color.RED);
+                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                    } catch (FileNotFoundException err) {
+                        message.setText(err.getMessage());
+                        message.setTextFill(Color.RED);
+                    } catch (IOException err) {
+                        message.setText(err.getMessage());
+                        message.setTextFill(Color.RED);
+                    } catch (NoSuchAlgorithmException err) {
+                        message.setText(err.getMessage());
+                        message.setTextFill(Color.RED);
                     }
-                } catch (SQLException e) { 
-                    message.setText(e.getMessage());
+                } else {
                     message.setTextFill(Color.RED);
-                    System.out.println(e.getMessage());
-                    e.printStackTrace();
-                } catch (FileNotFoundException err) {
-                    message.setText(err.getMessage());
-                    message.setTextFill(Color.RED);
-                } catch (IOException err) {
-                    message.setText(err.getMessage());
-                    message.setTextFill(Color.RED);
-                } catch (NoSuchAlgorithmException err) {
-                    message.setText(err.getMessage());
-                    message.setTextFill(Color.RED);
+                    message.setText("All fields are required!");
                 }
-            } else {
-                message.setTextFill(Color.RED);
-                message.setText("All fields are required!");
+                if (userExists) {
+                    message.setTextFill(Color.RED);
+                    message.setText("This username is already registered!");
+                }
+            } catch (SQLException e) {
+                System.err.println(e.getMessage());
             }
             username.clear();
             password.clear();
@@ -141,7 +153,7 @@ public class RegistrationController {
         Scene scene = new Scene(root, 430, 590);
         stage.setScene(scene);
         stage.setResizable(false);
-		stage.setTitle("Sign up");
-		stage.show();
+        stage.setTitle("Sign up");
+        stage.show();
     }
 }
