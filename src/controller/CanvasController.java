@@ -255,14 +255,16 @@ public class CanvasController {
                 InputStream fileInputStream;
 
                 try {
-                    fileInputStream = new FileInputStream(selectedFile);
-                    images.add(new ImageView());
-                    images.get(images.size() - 1).setImage(new Image(fileInputStream));
-                    makeDraggable(images.get(images.size() - 1));
-                    makeDeleteable(images.get(images.size() - 1));
-                    images.get(images.size() - 1).setFitWidth(100);
-                    images.get(images.size() - 1).setFitHeight(100);
-                    canvas.getChildren().add(images.get(images.size() - 1));
+                    if (selectedFile != null) {
+                        fileInputStream = new FileInputStream(selectedFile);
+                        images.add(new ImageView());
+                        images.get(images.size() - 1).setImage(new Image(fileInputStream));
+                        makeDraggable(images.get(images.size() - 1));
+                        makeDeleteable(images.get(images.size() - 1));
+                        images.get(images.size() - 1).setFitWidth(100);
+                        images.get(images.size() - 1).setFitHeight(100);
+                        canvas.getChildren().add(images.get(images.size() - 1));
+                    }
                 } catch (IOException err) {
                     err.printStackTrace();
                 }

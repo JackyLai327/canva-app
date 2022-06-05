@@ -77,10 +77,16 @@ public class ProfileController {
             InputStream fileInputStream;
 
             try {
-                fileInputStream = new FileInputStream(selectedFile);
-                profilePicture.setImage(new Image(fileInputStream));
+                if (selectedFile == null) {
+                    profilePicture.setImage(model.getUserDao().retrieveImage(user.getUsername()));
+                } else {
+                    fileInputStream = new FileInputStream(selectedFile);
+                    profilePicture.setImage(new Image(fileInputStream));
+                }
             } catch (IOException err) {
                 err.printStackTrace();
+            } catch (SQLException err1) {
+                err1.printStackTrace();
             }
         });
 
